@@ -31,7 +31,7 @@ class TestSignUp(BaseTest):
         with self.app:
             # create sign up post
             response = self.app.post('/sign-up',
-                           data=dict(email='meh', first_name='NormalName', password1='pass1234', password2='pass1234'),
+                           data=dict(email='meh', firstName='NormalName', password1='pass1234', password2='pass1234'),
                            follow_redirects=True)
             # assert that flash message is returned
             self.assertIn(b'Email must be greater than 3 characters', response.data)
@@ -42,3 +42,39 @@ class TestSignUp(BaseTest):
             self.assertFalse(user)
             # assert user is not logged in
             self.assertIsNone(current_user.get_id())
+
+
+    # test sign up post if name is 1 char
+    def test_sign_up_post_short_name(self):
+        with self.app:
+            # create post
+            response = self.app.post('/sign-up', 
+                                     data=dict(email='email@gmail.com', firstName='h', password1='pass1234', password2='pass1234'),
+                                     follow_redirects=True)
+            # assert that flash message appears
+            self.assertIn(b'First name must be greater than 1 character', response.data)  
+            # assert status code
+            self.assertEqual(response.status_code, 200) # it does return the page, just with flash error message
+            # assert user is not created
+            user = db.session.query(User).filter_by(email='email@gmail.com').first()
+            self.assertFalse(user)
+            # assert user is not logged in
+            self.assertIsNone(current_user.get_id()) 
+
+
+    # test sign up post if passwords don't match
+    def test_sign_up_post_passwords_mismatched(self):
+        with self.app:
+            # create our post req
+            response = self.app.post('/sign-up', 
+                                    data=dict(email='email@gmail.com', firstName='Namey', password1='pass1234', password2='pass6789'),
+                                    follow_redirects=True)
+            # assert flash message appears
+            self.assertIn(b'Passwords don&#39;t match', response.data)  
+            # assert status code
+            self.assertEqual(response.status_code, 200) # it does return the page, just with flash error message
+            # assert user is not created
+            user = db.session.query(User).filter_by(email='email@gmail.com').first()
+            self.assertFalse(user)
+            # assert user is not logged in
+            self.assertIsNone(current_user.get_id()) 

@@ -1,10 +1,10 @@
 AUTH:
 
 SIGN UP 
-- everyone can access route (get) (unit)
-- if len email less than 4, flash message appears (unit)
-- if name less than 2 characters, test flash (unit)
-- passwords dont match (unit)
+x everyone can access route (get) (unit)
+x if len email less than 4, flash message appears (unit)
+x if name less than 2 characters, test flash (unit)
+x passwords dont match (unit)
 - passwords at least 7 digits (unit)
 - if user exists (user is in db), flash message appears (integration)
 - successfully add user (integration)
