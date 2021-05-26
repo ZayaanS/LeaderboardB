@@ -1,5 +1,7 @@
 Functionality for leaderboard app:
 
+- functional db 
+
 - everyone can register
 - everyone can login
 - user with no team sees list of teams and can create team

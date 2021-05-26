@@ -7,7 +7,7 @@ x if name less than 2 characters, test flash (unit)
 x passwords dont match (unit)
 - passwords at least 7 digits (unit)
 - if user exists (user is in db), flash message appears (integration)
-- successfully add user (integration)
+x successfully add user (integration)
 
 
 LOG IN
